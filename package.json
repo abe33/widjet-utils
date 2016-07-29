@@ -1,0 +1,50 @@
+{
+  "name": "wigo-utils",
+  "version": "0.1.0",
+  "description": "JS utilities for wigo widgets",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha --recursive --compilers js:babel-register test/**/*.es6 test/*.es6",
+    "babel": "babel src --out-dir lib",
+    "browserify": "browserify src/index.es6 -o dist/index.js -t babelify --extension=.es6",
+    "standard": "standard src/*.es6 test/*.es6",
+    "esdoc": "esdoc -c esdoc.json",
+    "install": "npm run babel"
+  },
+  "keywords": ["widgets", "widget", "web", "wigo"],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/abe33/wigo-utils.git"
+  },
+  "bugs": "http://github.com/abe33/wigo-utils/issues",
+  "commits": "http://github.com/abe33/wigo-utils/commits",
+  "author": "Cédric Néhémie <cedric.nehemie@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-eslint": "^4.1.6",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^8.1.3",
+    "esdoc": "^0.4.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.4",
+    "mocha-jsdom": "^1.1.0",
+    "sinon": "^1.17.4",
+    "standard": "^5.4.1"
+  },
+  "dependencies": {},
+  "standard": {
+    "parser": "babel-eslint",
+    "globals": [
+      "it",
+      "describe",
+      "beforeEach",
+      "afterEach"
+    ]
+  },
+  "babel": {
+    "presets": ["es2015"]
+  }
+}
