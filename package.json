@@ -1,6 +1,6 @@
 {
   "name": "wigo-utils",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "JS utilities for wigo widgets",
   "main": "lib/index.js",
   "scripts": {
