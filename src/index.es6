@@ -1,4 +1,4 @@
-import {DisposableEvent} from './disposables'
+import {DisposableEvent} from 'wigo-disposables'
 
 //  ######  ######## ########
 // ##    ##    ##    ##     ##
