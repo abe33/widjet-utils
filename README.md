@@ -1,3 +1,3 @@
-# wigo-utils
+# widjet-utils
 
-JS utilities for wigo widgets
+JS utilities for widjet widgets

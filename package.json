@@ -1,7 +1,7 @@
 {
-  "name": "wigo-utils",
-  "version": "0.2.0",
-  "description": "JS utilities for wigo widgets",
+  "name": "widjet-utils",
+  "version": "0.1.0",
+  "description": "JS utilities for widjet widgets",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --recursive --compilers js:babel-register test/**/*.es6 test/*.es6",
@@ -11,13 +11,13 @@
     "esdoc": "esdoc -c esdoc.json",
     "install": "npm run babel"
   },
-  "keywords": ["widgets", "widget", "web", "wigo"],
+  "keywords": ["widgets", "widget", "web", "widjet"],
   "repository": {
     "type": "git",
-    "url": "git://github.com/abe33/wigo-utils.git"
+    "url": "git://github.com/abe33/widjet-utils.git"
   },
-  "bugs": "http://github.com/abe33/wigo-utils/issues",
-  "commits": "http://github.com/abe33/wigo-utils/commits",
+  "bugs": "http://github.com/abe33/widjet-utils/issues",
+  "commits": "http://github.com/abe33/widjet-utils/commits",
   "author": "Cédric Néhémie <cedric.nehemie@gmail.com>",
   "license": "MIT",
   "devDependencies": {
@@ -35,7 +35,7 @@
     "standard": "^5.4.1"
   },
   "dependencies": {
-    "wigo-disposables": "*"
+    "widjet-disposables": "*"
   },
   "standard": {
     "parser": "babel-eslint",
