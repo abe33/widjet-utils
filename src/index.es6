@@ -112,6 +112,8 @@ export function eachParent (node, block) {
 
   while (parent) {
     block(parent)
+
+    if (parent.nodeName === 'HTML') { break }
     parent = parent.parentNode
   }
 }
@@ -131,7 +133,7 @@ export function parent (node, selector) {
 }
 
 export function nodeAndParents (node, selector = '*') {
-  return [node].concat(parents(node))
+  return [node].concat(parents(node, selector))
 }
 
 // ######## ##     ## ######## ##    ## ########  ######

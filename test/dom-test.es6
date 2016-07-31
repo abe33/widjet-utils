@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 import jsdom from 'mocha-jsdom'
 
-import {getNode, getNodes, cloneNode, nodeIndex, detachNode, animate} from '../src/index'
+import {getNode, getNodes, cloneNode, nodeIndex, detachNode, animate, parents, parent, nodeAndParents} from '../src/index'
 
 describe('DOM utils', () => {
   jsdom()
@@ -133,6 +133,83 @@ describe('DOM utils', () => {
           expect(spy.callCount).to.be.greaterThan(2)
           done()
         }
+      })
+    })
+  })
+
+  describe('ancestors traversing', () => {
+    let [root, node] = []
+
+    beforeEach(() => {
+      root = getNode('<div class="root"><div class="foo"><div class="bar"><div class="child"></div></div></div></div>')
+
+      node = root.querySelector('.child')
+
+      document.body.appendChild(root)
+    })
+
+    describe('parents()', () => {
+      describe('when called without a selector', () => {
+        it('returns an array of all the parent of the node', () => {
+          expect(parents(node)).to.have.length(5)
+          expect(parents(node).map(n => n.nodeName)).to.eql([
+            'DIV',
+            'DIV',
+            'DIV',
+            'BODY',
+            'HTML'
+          ])
+        })
+      })
+
+      describe('when called with a selector', () => {
+        it('returns an array of all the parent of the node', () => {
+          expect(parents(node, 'div')).to.have.length(3)
+
+          expect(parents(node, '.foo')).to.eql([root.querySelector('.foo')])
+          expect(parents(node, '.root .bar')).to.eql([root.querySelector('.bar')])
+          expect(parents(node, '.root')).to.eql([root])
+        })
+      })
+    })
+
+    describe('parent()', () => {
+      describe('when called without a selector', () => {
+        it('returns the direct parent of a node', () => {
+          expect(parent(node)).to.eql(root.querySelector('.bar'))
+        })
+      })
+
+      describe('when called with a selector', () => {
+        it('returns the ancestor of the node that matches the selector', () => {
+          expect(parent(node, '.foo')).to.eql(root.querySelector('.foo'))
+        })
+      })
+    })
+
+    describe('nodeAndParents()', () => {
+      describe('when called without a selector', () => {
+        it('returns an array of all the parent of the node', () => {
+          expect(nodeAndParents(node)).to.have.length(6)
+          expect(nodeAndParents(node).map(n => n.nodeName)).to.eql([
+            'DIV',
+            'DIV',
+            'DIV',
+            'DIV',
+            'BODY',
+            'HTML'
+          ])
+        })
+      })
+
+      describe('when called with a selector', () => {
+        it('returns an array of all the parent of the node', () => {
+          expect(nodeAndParents(node, 'div')).to.have.length(4)
+
+          expect(nodeAndParents(node, '.foo')).to.eql([node, root.querySelector('.foo')])
+          expect(nodeAndParents(node, '.root .bar')).to.eql([node, root.querySelector('.bar')])
+          expect(nodeAndParents(node, '.root')).to.eql([node, root])
+        })
       })
     })
   })
