@@ -130,7 +130,7 @@ describe('DOM utils', () => {
         end: () => {
           expect(spy.calledWith(0)).to.be.ok()
           expect(spy.calledWith(100)).to.be.ok()
-          expect(spy.callCount).to.be.greaterThan(2)
+          expect(spy.callCount).not.to.be.below(2)
           done()
         }
       })
