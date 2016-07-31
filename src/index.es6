@@ -173,7 +173,14 @@ export function domEvent (type, data = {}, options = {}) {
 }
 
 export function addDelegatedEventListener (object, event, selector, callback) {
+  if (typeof selector === 'function') {
+    callback = selector
+    selector = '*'
+  }
+
   const listener = e => {
+    if (e.isPropagationStopped) { return }
+
     let {target} = e
     decorateEvent(e)
     nodeAndParents(target).forEach((node) => {
