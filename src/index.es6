@@ -43,16 +43,60 @@ export function getNode (html) {
   return node
 }
 
-export function cloneNode (node) { return getNode(node.outerHTML) }
+export function getNodes (html) {
+  if (!html) { return [] }
+  if (previewNode == null) { previewNode = document.createElement('div') }
+
+  previewNode.innerHTML = html
+  const nodes = asArray(previewNode.childNodes)
+  previewNode.innerHTML = ''
+  return nodes
+}
+
+export function cloneNode (node) {
+  return node ? getNode(node.outerHTML) : undefined
+}
 
 export function nodeIndex (node) {
-  return node.parentNode
+  return node && node.parentNode
     ? ([]).indexOf.call(node.parentNode.children, node)
     : -1
 }
 
 export function detachNode (node) {
   node.parentNode && node.parentNode.removeChild(node)
+}
+
+export function animate ({from, to, duration, step, end}) {
+  const start = getTime()
+  let progress
+
+  update()
+
+  function getTime () { return new Date() }
+
+  function swing (progress) {
+    return 0.5 - Math.cos(progress * Math.PI) / 2
+  }
+
+  function update () {
+    const passed = getTime() - start
+    if (duration === 0) {
+      progress = 1
+    } else {
+      progress = passed / duration
+    }
+    if (progress > 1) { progress = 1 }
+    const delta = swing(progress)
+    const value = from + (to - from) * delta
+    step(value, delta)
+
+    if (progress < 1) {
+      window.requestAnimationFrame(update)
+    } else {
+      end && end()
+    }
+  }
 }
 
 // ########     ###    ########  ######## ##    ## ########  ######
@@ -90,38 +134,6 @@ export function nodeAndParents (node, selector = '*') {
   return [node].concat(parents(node))
 }
 
-export function animate ({from, to, duration, step, end}) {
-  const start = getTime()
-  let progress
-
-  update()
-
-  function getTime () { return new Date() }
-
-  function swing (progress) {
-    return 0.5 - Math.cos(progress * Math.PI) / 2
-  }
-
-  function update () {
-    const passed = getTime() - start
-    if (duration === 0) {
-      progress = 1
-    } else {
-      progress = passed / duration
-    }
-    if (progress > 1) { progress = 1 }
-    const delta = swing(progress)
-    const value = from + (to - from) * delta
-    step(value, delta)
-
-    if (progress < 1) {
-      window.requestAnimationFrame(update)
-    } else {
-      end && end()
-    }
-  }
-}
-
 // ######## ##     ## ######## ##    ## ########  ######
 // ##       ##     ## ##       ###   ##    ##    ##    ##
 // ##       ##     ## ##       ####  ##    ##    ##
@@ -156,18 +168,6 @@ export function domEvent (type, data = {}, options = {}) {
 
   event.data = data
   return event
-}
-
-export function addMultiEventListener (object, evts, callback) {
-  const events = evts.split(/\s+/g)
-
-  events.forEach(event => object.addEventListener(event, callback))
-}
-
-export function removeMultiEventListener (object, evts, callback) {
-  const events = evts.split(/\s+/g)
-
-  events.forEach(event => object.removeEventListener(event, callback))
 }
 
 export function addDelegatedEventListener (object, event, selector, callback) {
