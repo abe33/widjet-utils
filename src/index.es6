@@ -128,7 +128,7 @@ export function parents (node, selector = '*') {
   return parentNodes
 }
 
-export function parent (node, selector) {
+export function parent (node, selector = '*') {
   return parents(node, selector)[0]
 }
 
