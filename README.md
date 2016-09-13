@@ -73,6 +73,10 @@ import {getNodes} from 'widjet-utils'
 const nodes = getNodes('<div class="foo">bar</div><div class="bar">foo</div>')
 ```
 
+### clearNodeCache
+
+Clears the node used by `getNode` and `getNodes` method. Useful in test environment.
+
 ### cloneNode
 
 Returns a copy of the passed-in node.
