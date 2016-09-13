@@ -34,6 +34,11 @@ export function asArray (collection) { return [].slice.call(collection) }
 // ########   #######  ##     ##
 
 let previewNode
+
+export function clearNodeCache () {
+  previewNode = null
+}
+
 export function getNode (html) {
   if (previewNode == null) { previewNode = document.createElement('div') }
 
