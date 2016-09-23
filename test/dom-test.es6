@@ -2,12 +2,18 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 import jsdom from 'mocha-jsdom'
 
-import {getNode, getNodes, cloneNode, nodeIndex, detachNode, animate, parents, parent, nodeAndParents} from '../src/index'
+import {getNode, getNodes, cloneNode, nodeIndex, detachNode, animate, parents, parent, nodeAndParents, clearNodeCache} from '../src/index'
 
 describe('DOM utils', () => {
   jsdom()
 
+  beforeEach(() => { clearNodeCache() })
+
   describe('getNode()', () => {
+    it('returns undefined when called without HTML', () => {
+      expect(getNode()).to.be(undefined)
+    })
+
     it('returns a Node element from a string', () => {
       const node = getNode('<div class="foo">bar</div>')
 
@@ -33,10 +39,6 @@ describe('DOM utils', () => {
 
     it('ignores text nodes', () => {
       expect(getNode('foo')).to.be(null)
-    })
-
-    it('returns null if no string is passed', () => {
-      expect(getNode()).to.be(null)
     })
   })
 

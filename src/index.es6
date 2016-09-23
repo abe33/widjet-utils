@@ -40,6 +40,7 @@ export function clearNodeCache () {
 }
 
 export function getNode (html) {
+  if (!html) { return undefined }
   if (previewNode == null) { previewNode = document.createElement('div') }
 
   previewNode.innerHTML = html
