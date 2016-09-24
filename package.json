@@ -3,6 +3,7 @@
   "version": "0.1.3",
   "description": "JS utilities for widjet widgets",
   "main": "lib/index.js",
+  "jsnext:main": "src/index.es6",
   "scripts": {
     "test": "nyc mocha --recursive --compilers js:babel-register test/**/*.es6 test/*.es6",
     "babel": "babel src --out-dir lib",
