@@ -23,7 +23,51 @@ export function clone (object) {
   return copy
 }
 
-export function asArray (collection) { return [].slice.call(collection) }
+const slice = Array.prototype.slice
+
+const _curry = (n, fn, curryArgs = []) => (...args) => {
+  const concatArgs = curryArgs.concat(args)
+
+  return n > concatArgs.length
+    ? _curry(n, fn, concatArgs)
+    : fn.apply(null, slice.call(concatArgs, 0, n))
+}
+
+export function curry (fn) { return _curry(fn.length, fn) }
+
+export function curryN (n, fn) { return _curry(n, fn) }
+
+export const curry1 = curryN(2, curryN)(1)
+export const curry2 = curryN(2, curryN)(2)
+export const curry3 = curryN(2, curryN)(3)
+export const curry4 = curryN(2, curryN)(4)
+
+export const apply = curry2((fn, args) => fn.apply(null, args))
+
+export const identity = a => a
+export const always = a => true
+export const never = a => false
+
+export const when = curry2((predicates, value) => {
+  const {length} = predicates
+  for (let i = 0; i < length; i++) {
+    const [predicate, resolve] = predicates[i]
+
+    if (predicate(value)) { return resolve(value) }
+  }
+})
+
+export function compose (...fns) {
+  fns.push(apply(fns.pop()))
+  return (...args) => fns.reduceRight((memo, fn) => fn(memo), args)
+}
+
+export function pipe (...fns) {
+  fns[0] = apply(fns[0])
+  return (...args) => fns.reduce((memo, fn) => fn(memo), args)
+}
+
+export function asArray (collection) { return slice.call(collection) }
 
 // ########   #######  ##     ##
 // ##     ## ##     ## ###   ###
