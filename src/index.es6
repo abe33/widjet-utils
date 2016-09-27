@@ -69,6 +69,8 @@ export function pipe (...fns) {
 
 export function asArray (collection) { return slice.call(collection) }
 
+export const log = (v) => { console.log(v); return v }
+
 // ########   #######  ##     ##
 // ##     ## ##     ## ###   ###
 // ##     ## ##     ## #### ####
