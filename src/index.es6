@@ -148,7 +148,7 @@ export function animate ({from, to, duration, step, end}) {
     } else {
       progress = passed / duration
     }
-    if (progress > 1) { progress = 1 }
+    if (progress >= 1) { progress = 1 }
     const delta = swing(progress)
     const value = from + (to - from) * delta
     step(value, delta)

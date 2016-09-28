@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import sinon from 'sinon'
 import {
   always,
   apply,
@@ -9,6 +10,7 @@ import {
   curryN,
   identity,
   inputName,
+  log,
   merge,
   never,
   pipe,
@@ -17,6 +19,26 @@ import {
 
 describe('misc utilities', () => {
   describe('.merge()', () => {
+  describe('log()', () => {
+    let safeLog
+    beforeEach(() => {
+      safeLog = console.log
+      sinon.stub(console, 'log')
+    })
+
+    it('calls the console.log method with the received value', () => {
+      log('foo')
+      expect(console.log.calledWith('foo')).to.be.ok()
+      console.log = safeLog
+    })
+
+    it('returns the received value', () => {
+      const res = log('foo')
+      console.log = safeLog
+      expect(res).to.be.eql('foo')
+    })
+  })
+
     it('merges two objects as a third one', () => {
       const a = {foo: 'foo', bar: 'bar'}
       const b = {bar: 'foo', baz: 'baz'}
