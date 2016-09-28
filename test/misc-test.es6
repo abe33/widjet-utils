@@ -18,7 +18,6 @@ import {
 } from '../src/index'
 
 describe('misc utilities', () => {
-  describe('.merge()', () => {
   describe('log()', () => {
     let safeLog
     beforeEach(() => {
@@ -39,6 +38,7 @@ describe('misc utilities', () => {
     })
   })
 
+  describe('merge()', () => {
     it('merges two objects as a third one', () => {
       const a = {foo: 'foo', bar: 'bar'}
       const b = {bar: 'foo', baz: 'baz'}
@@ -47,7 +47,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.clone()', () => {
+  describe('clone()', () => {
     it('returns a shallow copy of the passed-in object', () => {
       const a = {foo: 'foo', bar: 'bar'}
       const b = clone(a)
@@ -57,7 +57,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.asArray()', () => {
+  describe('asArray()', () => {
     it('converts an array like object into an array', () => {
       const a = {length: 2, '0': 'foo', '1': 'bar'}
       const b = asArray(a)
@@ -66,7 +66,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.curry()', () => {
+  describe('curry()', () => {
     it('detects the number of arguments of a function and curries it accordingly', () => {
       function foo (a, b, c, d) {
         return a + b + c + d
@@ -89,7 +89,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.curryN()', () => {
+  describe('curryN()', () => {
     it('curries a function to receive the specified amount of arguments', () => {
       function foo (a, b, c = 0, d = 0) {
         return a + b + c + d
@@ -107,7 +107,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.apply()', () => {
+  describe('apply()', () => {
     it('calls the function with the passed-in arguments array', () => {
       function foo (a, b, c = 0, d = 0) {
         return a + b + c + d
@@ -127,7 +127,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.identity()', () => {
+  describe('identity()', () => {
     it('returns the argument it receive', () => {
       const o = {foo: 'bar'}
 
@@ -135,19 +135,19 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.always()', () => {
+  describe('always()', () => {
     it('always returns true', () => {
       expect(always()).to.be.ok()
     })
   })
 
-  describe('.never()', () => {
+  describe('never()', () => {
     it('always returns false', () => {
       expect(never()).not.to.be.ok()
     })
   })
 
-  describe('.when()', () => {
+  describe('when()', () => {
     describe('given an array of tuples predicate/action', () => {
       let _when
 
@@ -167,7 +167,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.compose()', () => {
+  describe('compose()', () => {
     it('executes functions from right to left', () => {
       const foo = (a, b, c, d) => a + b + c + d
       const bar = n => n * 4
@@ -179,7 +179,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.pipe()', () => {
+  describe('pipe()', () => {
     it('executes functions from left to right', () => {
       const foo = (a, b, c, d) => a + b + c + d
       const bar = n => n * 4
