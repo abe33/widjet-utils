@@ -116,7 +116,7 @@ describe('DOM utils', () => {
     })
   })
 
-  describe.skip('animate()', () => {
+  describe('animate()', () => {
     beforeEach(() => {
       window.requestAnimationFrame = (fn) => setTimeout(fn, 1000 / 60)
     })
