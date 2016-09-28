@@ -131,7 +131,6 @@ export function detachNode (node) {
 
 export function animate ({from, to, duration, step, end}) {
   const start = getTime()
-  let progress
 
   update()
 
@@ -143,21 +142,14 @@ export function animate ({from, to, duration, step, end}) {
 
   function update () {
     const passed = getTime() - start
-    if (duration === 0) {
-      progress = 1
-    } else {
-      progress = passed / duration
-    }
-    if (progress >= 1) { progress = 1 }
+    const progress = Math.min(1, duration === 0 ? 1 : passed / duration)
     const delta = swing(progress)
-    const value = from + (to - from) * delta
-    step(value, delta)
 
-    if (progress < 1) {
-      window.requestAnimationFrame(update)
-    } else {
-      end && end()
-    }
+    step(from + (to - from) * delta, delta)
+
+    progress < 1
+      ? window.requestAnimationFrame(update)
+      : end && end()
   }
 }
 
