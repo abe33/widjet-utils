@@ -8,6 +8,7 @@ import {
   curry,
   curryN,
   identity,
+  inputName,
   merge,
   never,
   pipe,
@@ -165,6 +166,44 @@ describe('misc utilities', () => {
       const fn = pipe(foo, bar, baz)
 
       expect(fn(1, 2, 3, 4)).to.eql(42)
+    })
+  })
+
+  describe('inputName()', () => {
+    describe('by default', () => {
+      it('joins fields using [ and ]', () => {
+        const fn = inputName()
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo[0][bar]')
+      })
+    })
+
+    describe('with both prefix and suffix options', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({prefix: '(', suffix: ')'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo(0)(bar)')
+      })
+    })
+
+    describe('with only the prefix option', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({prefix: '_'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo_0_bar')
+      })
+    })
+
+    describe('with only the suffix option', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({suffix: '_'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo0_bar_')
+      })
     })
   })
 })

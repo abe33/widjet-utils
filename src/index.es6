@@ -47,6 +47,8 @@ export const apply = curry2((fn, args) => fn.apply(null, args))
 export const identity = a => a
 export const always = a => true
 export const never = a => false
+export const head = a => a[0]
+export const tail = a => a.slice(1)
 
 export const when = curry2((predicates, value) => {
   const {length} = predicates
@@ -68,6 +70,14 @@ export function pipe (...fns) {
 }
 
 export function asArray (collection) { return slice.call(collection) }
+
+export const inputName = (options = {prefix: '[', suffix: ']'}) => {
+  const prefix = options.prefix || ''
+  const suffix = options.suffix || ''
+
+  return (...args) =>
+    [head(args)].concat(tail(args).map(s => `${prefix}${s}${suffix}`)).join('')
+}
 
 export const log = (v) => { console.log(v); return v }
 
