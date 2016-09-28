@@ -14,7 +14,6 @@ after_success:
 
 env:
   - CXX=g++-4.8
-  - TRAVIS=1
 
 addons:
   apt:
