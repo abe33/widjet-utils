@@ -9,8 +9,8 @@ script:
   - npm run standard
   - npm test
 
-# after_success:
-#   - npm run coverage
+after_success:
+  - npm run coverage
 
 env:
   - CXX=g++-4.8
