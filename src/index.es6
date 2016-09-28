@@ -196,32 +196,50 @@ export function nodeAndParents (node, selector = '*') {
 // ##         ## ##   ##       ##   ###    ##    ##    ##
 // ########    ###    ######## ##    ##    ##     ######
 
-export function domEvent (type, data = {}, options = {}) {
-  const {bubbles, cancelable} = options
-  let event
+function appendData (data, event) {
+  if (data) { event.data = data }
+  return event
+}
 
-  try {
-    event = new window.Event(type, {
-      bubbles: bubbles != null ? bubbles : true,
-      cancelable: cancelable != null ? cancelable : true
-    })
-  } catch (e) {
-    if ((document.createEvent != null)) {
-      event = document.createEvent('Event')
-      event.initEvent(
-        type,
-        bubbles != null ? bubbles : true,
-        cancelable != null ? cancelable : true
-      )
-    } else if (document.createEventObject) {
-      event = document.createEventObject()
-      event.type = type
-      for (var k in options) { event[k] = options[k] }
+export const newEvent = (type, data, props) =>
+  appendData(data, new window.Event(type, {
+    bubbles: props.bubbles != null ? props.bubbles : true,
+    cancelable: props.cancelable != null ? props.cancelable : true
+  }))
+
+export const createEvent = (type, data, props) => {
+  const event = document.createEvent('Event')
+  event.initEvent(
+    type,
+    props.bubbles != null ? props.bubbles : true,
+    props.cancelable != null ? props.cancelable : true
+  )
+  return appendData(data, event)
+}
+
+export const createEventObject = (type, data, props) => {
+  const event = document.createEventObject()
+  event.type = type
+  event.cancelBubble = props.bubbles === false
+  delete props.bubbles
+  for (var k in props) { event[k] = props[k] }
+  return appendData(data, event)
+}
+
+let domEventImplementation
+export const domEvent = (type, data, props = {}) => {
+  if (!domEventImplementation) {
+    try {
+      const e = new window.Event('test')
+      domEventImplementation = e && newEvent
+    } catch (e) {
+      domEventImplementation = document.createEvent
+      ? createEvent
+      : createEventObject
     }
   }
 
-  event.data = data
-  return event
+  return domEventImplementation(type, data, props)
 }
 
 export function addDelegatedEventListener (object, event, selector, callback) {

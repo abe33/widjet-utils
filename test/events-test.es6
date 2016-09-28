@@ -2,7 +2,7 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 import jsdom from 'mocha-jsdom'
 
-import {domEvent, addDelegatedEventListener} from '../src/index'
+import {createEvent, createEventObject, domEvent, addDelegatedEventListener} from '../src/index'
 
 describe('events utils', () => {
   jsdom()
@@ -16,6 +16,85 @@ describe('events utils', () => {
     node = root.querySelector('.child')
 
     spy = sinon.spy()
+  })
+
+  describe('domEvent()', () => {
+    describe('called with just an event name', () => {
+      it('creates an event that bubbles and can be cancelled', () => {
+        const event = domEvent('foo')
+
+        expect(event.bubbles).to.be.ok()
+        expect(event.cancelable).to.be.ok()
+        expect(event.type).to.eql('foo')
+      })
+    })
+
+    describe('called with just event name and some data', () => {
+      it('creates an event with a data property', () => {
+        const data = {foo: 'bar'}
+        const event = domEvent('foo', data)
+
+        expect(event.data).to.be(data)
+      })
+    })
+
+    describe('called with a props object', () => {
+      it('creates an event with the corresponding properties', () => {
+        const event = domEvent('foo', null, {bubbles: false, cancelable: false})
+
+        expect(event.bubbles).not.to.be.ok()
+        expect(event.cancelable).not.to.be.ok()
+      })
+    })
+  })
+
+  describe('using legacy method createEvent()', () => {
+    describe('with no data and props', () => {
+      it('creates a bubbling and cancelable event', () => {
+        const event = createEvent('foo', null, {})
+
+        expect(event.type).to.eql('foo')
+        expect(event.bubbles).to.be.ok()
+        expect(event.cancelable).to.be.ok()
+      })
+    })
+
+    describe('with data and props', () => {
+      it('setups the event', () => {
+        const data = {foo: 'bar'}
+        const event = createEvent('foo', data, {bubbles: false, cancelable: false})
+
+        expect(event.type).to.eql('foo')
+        expect(event.data).to.be(data)
+        expect(event.bubbles).not.to.be.ok()
+        expect(event.cancelable).not.to.be.ok()
+      })
+    })
+  })
+
+  describe('using legacy method createEventObject()', () => {
+    beforeEach(() => {
+      document.createEventObject = () => ({})
+    })
+    describe('with no data and props', () => {
+      it('creates a bubbling and cancelable event', () => {
+        const event = createEventObject('foo', null, {})
+
+        expect(event.type).to.eql('foo')
+        expect(event.cancelBubble).not.to.be.ok()
+      })
+    })
+
+    describe('with data and props', () => {
+      it('setups the event', () => {
+        const data = {foo: 'bar'}
+        const event = createEventObject('foo', data, {bubbles: false, cancelable: false})
+
+        expect(event.type).to.eql('foo')
+        expect(event.data).to.be(data)
+        expect(event.cancelBubble).to.be.ok()
+      })
+    })
   })
 
   describe('addDelegatedEventListener()', () => {
