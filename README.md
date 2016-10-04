@@ -53,6 +53,26 @@ import {asArray} from 'widjet-utils'
 const a = asArray(document.querySelectorAll('div'))
 ```
 
+### asPair
+
+Converts an object into an array with tuples of key and values.
+
+```js
+import {asPair} from 'widjet-utils'
+
+const a = asPair({foo: 'bar', bar: 'baz'})
+// [ ['foo', 'bar'], ['bar', 'baz'] ]
+```
+
+### asDataAttributes
+
+Converts an object into a string of data attributes.
+
+```js
+const html = asDataAttributes({foo: 10, bar: 'baz', baz: true})
+// 'data-foo="10" data-bar="baz" data-baz'
+```
+
 ### log
 
 Logs and returns the passed-in value.
