@@ -67,7 +67,8 @@ export function pipe (...fns) {
   return (...args) => fns.reduce((memo, fn) => fn(memo), args)
 }
 
-export function asArray (collection) { return slice.call(collection) }
+export const asArray = (collection) => slice.call(collection)
+export const asPair = (object) => Object.keys(object).map((k) => [k, object[k]])
 
 export const log = (v) => { console.log(v); return v }
 

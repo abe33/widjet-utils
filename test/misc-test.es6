@@ -3,6 +3,7 @@ import {
   always,
   apply,
   asArray,
+  asPair,
   clone,
   compose,
   curry,
@@ -40,6 +41,19 @@ describe('misc utilities', () => {
       const b = asArray(a)
 
       expect(b).to.eql(['foo', 'bar'])
+    })
+  })
+
+  describe('.asPair()', () => {
+    it('converts an object into an of tuples with the pairs key:value', () => {
+      const o = {foo: 10, bar: 'baz', baz: true}
+      const a = asPair(o)
+
+      expect(a).to.eql([
+        ['foo', 10],
+        ['bar', 'baz'],
+        ['baz', true]
+      ])
     })
   })
 
