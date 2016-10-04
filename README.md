@@ -53,6 +53,16 @@ import {asArray} from 'widjet-utils'
 const a = asArray(document.querySelectorAll('div'))
 ```
 
+### log
+
+Logs and returns the passed-in value.
+
+```js
+import {log} from 'widjet-utils'
+
+[0,1,2,3].map(log) // returns [0,1,2,3] while logging each value
+```
+
 ### curry
 
 Returns a curried function that will returns a new function until all the arguments are provided.
@@ -247,6 +257,22 @@ animate({
   step: (value) => { node.style.left = value + 'px' },
   end: () => { console.log('transition ended') }
 })
+```
+
+### inputName
+
+Returns a function to generate input name of varying formats.
+
+The default format is such as `object[property]`.
+
+```js
+import {inputName} from 'widjet-utils'
+
+const bracketStyle = inputName({prefix: '[', suffix: ']'})
+const dotStyle = inputName({prefix: '.'})
+
+bracketStyle('foo', 0, 'bar') // foo[0][bar]
+dotStyle('foo', 0, 'bar') // foo.0.bar
 ```
 
 ### eachParent

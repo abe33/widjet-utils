@@ -1,11 +1,11 @@
 {
   "name": "widjet-utils",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "JS utilities for widjet widgets",
   "main": "lib/index.js",
   "jsnext:main": "src/index.es6",
   "scripts": {
-    "test": "nyc mocha --timeout 5000 --recursive --compilers js:babel-register test/**/*.es6 test/*.es6",
+    "test": "nyc mocha --timeout 10000 --recursive --compilers js:babel-register test/**/*.es6 test/*.es6",
     "lcov_report": "nyc report --reporter=lcov",
     "coverage": "npm run lcov_report && codecov",
     "babel": "babel src --out-dir lib",
@@ -24,10 +24,10 @@
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "^4.1.6",
-    "babel-register": "^6.3.13",
+    "babel-register": "6.14.0",
     "esdoc": "^0.4.0",
     "expect.js": "^0.3.1",
-    "mocha": "^2.3.4",
+    "mocha": "^3.1.0",
     "mocha-jsdom": "^1.1.0",
     "nyc": "^8.3.0",
     "sinon": "^1.17.4",

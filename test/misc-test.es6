@@ -1,4 +1,5 @@
 import expect from 'expect.js'
+import sinon from 'sinon'
 import {
   always,
   apply,
@@ -9,6 +10,8 @@ import {
   curry,
   curryN,
   identity,
+  inputName,
+  log,
   merge,
   never,
   pipe,
@@ -16,7 +19,27 @@ import {
 } from '../src/index'
 
 describe('misc utilities', () => {
-  describe('.merge()', () => {
+  describe('log()', () => {
+    let safeLog
+    beforeEach(() => {
+      safeLog = console.log
+      sinon.stub(console, 'log')
+    })
+
+    it('calls the console.log method with the received value', () => {
+      log('foo')
+      expect(console.log.calledWith('foo')).to.be.ok()
+      console.log = safeLog
+    })
+
+    it('returns the received value', () => {
+      const res = log('foo')
+      console.log = safeLog
+      expect(res).to.be.eql('foo')
+    })
+  })
+
+  describe('merge()', () => {
     it('merges two objects as a third one', () => {
       const a = {foo: 'foo', bar: 'bar'}
       const b = {bar: 'foo', baz: 'baz'}
@@ -25,7 +48,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.clone()', () => {
+  describe('clone()', () => {
     it('returns a shallow copy of the passed-in object', () => {
       const a = {foo: 'foo', bar: 'bar'}
       const b = clone(a)
@@ -35,7 +58,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.asArray()', () => {
+  describe('asArray()', () => {
     it('converts an array like object into an array', () => {
       const a = {length: 2, '0': 'foo', '1': 'bar'}
       const b = asArray(a)
@@ -57,7 +80,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.curry()', () => {
+  describe('curry()', () => {
     it('detects the number of arguments of a function and curries it accordingly', () => {
       function foo (a, b, c, d) {
         return a + b + c + d
@@ -80,7 +103,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.curryN()', () => {
+  describe('curryN()', () => {
     it('curries a function to receive the specified amount of arguments', () => {
       function foo (a, b, c = 0, d = 0) {
         return a + b + c + d
@@ -98,7 +121,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.apply()', () => {
+  describe('apply()', () => {
     it('calls the function with the passed-in arguments array', () => {
       function foo (a, b, c = 0, d = 0) {
         return a + b + c + d
@@ -118,7 +141,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.identity()', () => {
+  describe('identity()', () => {
     it('returns the argument it receive', () => {
       const o = {foo: 'bar'}
 
@@ -126,19 +149,19 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.always()', () => {
+  describe('always()', () => {
     it('always returns true', () => {
       expect(always()).to.be.ok()
     })
   })
 
-  describe('.never()', () => {
+  describe('never()', () => {
     it('always returns false', () => {
       expect(never()).not.to.be.ok()
     })
   })
 
-  describe('.when()', () => {
+  describe('when()', () => {
     describe('given an array of tuples predicate/action', () => {
       let _when
 
@@ -158,7 +181,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.compose()', () => {
+  describe('compose()', () => {
     it('executes functions from right to left', () => {
       const foo = (a, b, c, d) => a + b + c + d
       const bar = n => n * 4
@@ -170,7 +193,7 @@ describe('misc utilities', () => {
     })
   })
 
-  describe('.pipe()', () => {
+  describe('pipe()', () => {
     it('executes functions from left to right', () => {
       const foo = (a, b, c, d) => a + b + c + d
       const bar = n => n * 4
@@ -179,6 +202,44 @@ describe('misc utilities', () => {
       const fn = pipe(foo, bar, baz)
 
       expect(fn(1, 2, 3, 4)).to.eql(42)
+    })
+  })
+
+  describe('inputName()', () => {
+    describe('by default', () => {
+      it('joins fields using [ and ]', () => {
+        const fn = inputName()
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo[0][bar]')
+      })
+    })
+
+    describe('with both prefix and suffix options', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({prefix: '(', suffix: ')'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo(0)(bar)')
+      })
+    })
+
+    describe('with only the prefix option', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({prefix: '_'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo_0_bar')
+      })
+    })
+
+    describe('with only the suffix option', () => {
+      it('joins fields using the prefix and suffix', () => {
+        const fn = inputName({suffix: '_'})
+
+        expect(fn('foo')).to.eql('foo')
+        expect(fn('foo', 0, 'bar')).to.eql('foo0_bar_')
+      })
     })
   })
 })

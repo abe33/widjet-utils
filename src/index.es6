@@ -47,6 +47,8 @@ export const apply = curry2((fn, args) => fn.apply(null, args))
 export const identity = a => a
 export const always = a => true
 export const never = a => false
+export const head = a => a[0]
+export const tail = a => a.slice(1)
 
 export const when = curry2((predicates, value) => {
   const {length} = predicates
@@ -69,6 +71,14 @@ export function pipe (...fns) {
 
 export const asArray = (collection) => slice.call(collection)
 export const asPair = (object) => Object.keys(object).map((k) => [k, object[k]])
+
+export const inputName = (options = {prefix: '[', suffix: ']'}) => {
+  const prefix = options.prefix || ''
+  const suffix = options.suffix || ''
+
+  return (...args) =>
+    [head(args)].concat(tail(args).map(s => `${prefix}${s}${suffix}`)).join('')
+}
 
 export const log = (v) => { console.log(v); return v }
 
@@ -122,7 +132,6 @@ export function detachNode (node) {
 
 export function animate ({from, to, duration, step, end}) {
   const start = getTime()
-  let progress
 
   update()
 
@@ -134,21 +143,14 @@ export function animate ({from, to, duration, step, end}) {
 
   function update () {
     const passed = getTime() - start
-    if (duration === 0) {
-      progress = 1
-    } else {
-      progress = passed / duration
-    }
-    if (progress > 1) { progress = 1 }
+    const progress = Math.min(1, duration === 0 ? 1 : passed / duration)
     const delta = swing(progress)
-    const value = from + (to - from) * delta
-    step(value, delta)
 
-    if (progress < 1) {
-      window.requestAnimationFrame(update)
-    } else {
-      end && end()
-    }
+    step(from + (to - from) * delta, delta)
+
+    progress < 1
+      ? window.requestAnimationFrame(update)
+      : end && end()
   }
 }
 
@@ -197,32 +199,50 @@ export function nodeAndParents (node, selector = '*') {
 // ##         ## ##   ##       ##   ###    ##    ##    ##
 // ########    ###    ######## ##    ##    ##     ######
 
-export function domEvent (type, data = {}, options = {}) {
-  const {bubbles, cancelable} = options
-  let event
+function appendData (data, event) {
+  if (data) { event.data = data }
+  return event
+}
 
-  try {
-    event = new window.Event(type, {
-      bubbles: bubbles != null ? bubbles : true,
-      cancelable: cancelable != null ? cancelable : true
-    })
-  } catch (e) {
-    if ((document.createEvent != null)) {
-      event = document.createEvent('Event')
-      event.initEvent(
-        type,
-        bubbles != null ? bubbles : true,
-        cancelable != null ? cancelable : true
-      )
-    } else if (document.createEventObject) {
-      event = document.createEventObject()
-      event.type = type
-      for (var k in options) { event[k] = options[k] }
+export const newEvent = (type, data, props) =>
+  appendData(data, new window.Event(type, {
+    bubbles: props.bubbles != null ? props.bubbles : true,
+    cancelable: props.cancelable != null ? props.cancelable : true
+  }))
+
+export const createEvent = (type, data, props) => {
+  const event = document.createEvent('Event')
+  event.initEvent(
+    type,
+    props.bubbles != null ? props.bubbles : true,
+    props.cancelable != null ? props.cancelable : true
+  )
+  return appendData(data, event)
+}
+
+export const createEventObject = (type, data, props) => {
+  const event = document.createEventObject()
+  event.type = type
+  event.cancelBubble = props.bubbles === false
+  delete props.bubbles
+  for (var k in props) { event[k] = props[k] }
+  return appendData(data, event)
+}
+
+let domEventImplementation
+export const domEvent = (type, data, props = {}) => {
+  if (!domEventImplementation) {
+    try {
+      const e = new window.Event('test')
+      domEventImplementation = e && newEvent
+    } catch (e) {
+      domEventImplementation = document.createEvent
+      ? createEvent
+      : createEventObject
     }
   }
 
-  event.data = data
-  return event
+  return domEventImplementation(type, data, props)
 }
 
 export function addDelegatedEventListener (object, event, selector, callback) {

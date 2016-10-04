@@ -137,6 +137,22 @@ describe('DOM utils', () => {
         }
       })
     })
+
+    describe('with a duration of 0', () => {
+      it('jumps directly to the target value', () => {
+        const spy = sinon.spy()
+        animate({
+          from: 0,
+          to: 100,
+          duration: 0,
+          step: spy
+        })
+
+        expect(spy.calledWith(0)).not.to.be.ok()
+        expect(spy.calledWith(100)).to.be.ok()
+        expect(spy.callCount).to.eql(1)
+      })
+    })
   })
 
   describe('ancestors traversing', () => {
