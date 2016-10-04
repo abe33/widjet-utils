@@ -4,6 +4,7 @@ import {
   always,
   apply,
   asArray,
+  asDataAttributes,
   asPair,
   clone,
   compose,
@@ -77,6 +78,15 @@ describe('misc utilities', () => {
         ['bar', 'baz'],
         ['baz', true]
       ])
+    })
+  })
+
+  describe('asDataAttributes', () => {
+    it('converts an object into a string of data-attributes', () => {
+      const o = {foo: 10, bar: 'baz', baz: true}
+      const html = asDataAttributes(o)
+
+      expect(html).to.eql('data-foo="10" data-bar="baz" data-baz')
     })
   })
 

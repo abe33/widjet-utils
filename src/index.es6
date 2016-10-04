@@ -72,6 +72,12 @@ export function pipe (...fns) {
 export const asArray = (collection) => slice.call(collection)
 export const asPair = (object) => Object.keys(object).map((k) => [k, object[k]])
 
+export const asDataAttributes = (o) =>
+  asPair(o)
+  .map(([k, v]) => typeof v === 'boolean' ? (v ? k : '') : `${k}="${v}"`)
+  .map(s => `data-${s}`)
+  .join(' ')
+
 export const inputName = (options = {prefix: '[', suffix: ']'}) => {
   const prefix = options.prefix || ''
   const suffix = options.suffix || ''
