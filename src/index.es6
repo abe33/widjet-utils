@@ -25,12 +25,14 @@ export function clone (object) {
 
 const slice = Array.prototype.slice
 
-const _curry = (n, fn, curryArgs = []) => (...args) => {
-  const concatArgs = curryArgs.concat(args)
+const _curry = (n, fn, curryArgs = []) => {
+  return (...args) => {
+    const concatArgs = curryArgs.concat(args)
 
-  return n > concatArgs.length
-    ? _curry(n, fn, concatArgs)
-    : fn.apply(null, slice.call(concatArgs, 0, n))
+    return n > concatArgs.length
+      ? _curry(n, fn, concatArgs)
+      : fn.apply(null, slice.call(concatArgs, 0, n))
+  }
 }
 
 export function curry (fn) { return _curry(fn.length, fn) }
