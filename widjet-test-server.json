@@ -2,7 +2,6 @@
   "scripts": {
     "ie8": [
       "//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js",
-      "//cdnjs.cloudflare.com/ajax/libs/dom4/1.8.3/dom4.js"
     ],
     "ie9": [
       "//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js"
