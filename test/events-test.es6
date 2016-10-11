@@ -2,6 +2,7 @@ import expect from 'expect.js'
 import sinon from 'sinon'
 import jsdom from 'mocha-jsdom'
 
+import {setPageContent, getTestRoot} from 'widjet-test-utils/dom'
 import {createEvent, createEventObject, domEvent, addDelegatedEventListener} from '../src/index'
 
 describe('events utils', () => {
@@ -10,9 +11,9 @@ describe('events utils', () => {
   let [root, node, spy] = []
 
   beforeEach(() => {
-    document.body.innerHTML = '<div class="root"><div class="foo"><div class="child"></div></div><div class="bar"><div class="child"></div></div></div>'
+    setPageContent('<div class="root"><div class="foo"><div class="child"></div></div><div class="bar"><div class="child"></div></div></div>')
 
-    root = document.body.querySelector('.root')
+    root = getTestRoot().querySelector('.root')
     node = root.querySelector('.child')
 
     spy = sinon.spy()
