@@ -4,6 +4,8 @@ import jsdom from 'mocha-jsdom'
 
 import {getNode, getNodes, cloneNode, nodeIndex, detachNode, animate, parents, parent, nodeAndParents, clearNodeCache} from '../src/index'
 
+const textContent = (n) => n.innerText || n.textContent
+
 describe('DOM utils', () => {
   jsdom()
 
@@ -20,21 +22,21 @@ describe('DOM utils', () => {
       expect(node.nodeType).to.eql(1)
       expect(node.nodeName).to.eql('DIV')
       expect(node.classList.contains('foo')).to.be.ok()
-      expect(node.textContent).to.eql('bar')
+      expect(textContent(node)).to.eql('bar')
     })
 
     it('ignores text nodes at the beginning of the string', () => {
       const node = getNode('foo <div class="foo">bar</div>')
 
       expect(node.classList.contains('foo')).to.be.ok()
-      expect(node.textContent).to.eql('bar')
+      expect(textContent(node)).to.eql('bar')
     })
 
     it('ignores element nodes after the first one', () => {
       const node = getNode('<div class="foo">bar</div><div class="bar">foo</div>')
 
       expect(node.classList.contains('foo')).to.be.ok()
-      expect(node.textContent).to.eql('bar')
+      expect(textContent(node)).to.eql('bar')
     })
 
     it('ignores text nodes', () => {
@@ -50,15 +52,15 @@ describe('DOM utils', () => {
       expect(nodes[0].nodeType).to.eql(1)
       expect(nodes[0].nodeName).to.eql('DIV')
       expect(nodes[0].classList.contains('foo')).to.be.ok()
-      expect(nodes[0].textContent).to.eql('bar')
+      expect(textContent(nodes[0])).to.eql('bar')
 
       expect(nodes[1].nodeType).to.eql(3)
-      expect(nodes[1].textContent).to.eql(' foo ')
+      expect(textContent(nodes[1])).to.match(/\s*foo\s*/)
 
       expect(nodes[2].nodeType).to.eql(1)
       expect(nodes[2].nodeName).to.eql('SPAN')
       expect(nodes[2].classList.contains('bar')).to.be.ok()
-      expect(nodes[2].textContent).to.eql('foo')
+      expect(textContent(nodes[2])).to.eql('foo')
     })
 
     it('returns an empty array if no string is passed', () => {
@@ -74,7 +76,7 @@ describe('DOM utils', () => {
       expect(clone.nodeType).to.eql(original.nodeType)
       expect(clone.nodeName).to.eql(original.nodeName)
       expect(clone.className).to.eql(original.className)
-      expect(clone.textContent).to.eql(original.textContent)
+      expect(textContent(clone)).to.eql(textContent(original))
     })
 
     it('returns undefined if no node is passed', () => {
@@ -112,7 +114,7 @@ describe('DOM utils', () => {
 
       detachNode(child)
 
-      expect(child.parentNode).to.be(null)
+      expect(child.parentElement).to.be(null)
     })
   })
 

@@ -110,8 +110,9 @@ export function getNode (html) {
 
   previewNode.innerHTML = html
   const node = previewNode.firstElementChild
+  if (node) { previewNode.removeChild(node) }
   previewNode.innerHTML = ''
-  return node
+  return node || null
 }
 
 export function getNodes (html) {
@@ -120,6 +121,7 @@ export function getNodes (html) {
 
   previewNode.innerHTML = html
   const nodes = asArray(previewNode.childNodes)
+  nodes.forEach(n => previewNode.removeChild(n))
   previewNode.innerHTML = ''
   return nodes
 }
