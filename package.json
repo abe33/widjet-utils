@@ -1,6 +1,6 @@
 {
   "name": "widjet-utils",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "JS utilities for widjet widgets",
   "main": "lib/index.js",
   "jsnext:main": "src/index.es6",
