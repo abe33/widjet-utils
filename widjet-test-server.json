@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "ie8": [
+      "//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js"
+    ],
+    "ie9": [
+      "//cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js"
+    ]
+  }
+}
