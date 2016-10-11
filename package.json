@@ -60,6 +60,11 @@
     "presets": [
       "es2015"
     ],
+    "plugins": [
+      ["transform-es2015-classes", {"loose": true}],
+      "transform-es3-member-expression-literals",
+      "transform-es3-property-literals"
+    ],
     "env": {
       "test": {
         "plugins": [
