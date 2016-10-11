@@ -32,7 +32,7 @@ describe('events utils', () => {
 
     describe('called with just event name and some data', () => {
       it('creates an event with a data property', () => {
-        const data = {foo: 'bar'}
+        const data = 'some event data'
         const event = domEvent('foo', data)
 
         expect(event.data).to.be(data)
@@ -62,7 +62,7 @@ describe('events utils', () => {
 
     describe('with data and props', () => {
       it('setups the event', () => {
-        const data = {foo: 'bar'}
+        const data = 'some event data'
         const event = createEvent('foo', data, {bubbles: false, cancelable: false})
 
         expect(event.type).to.eql('foo')
@@ -75,7 +75,9 @@ describe('events utils', () => {
 
   describe('using legacy method createEventObject()', () => {
     beforeEach(() => {
-      document.createEventObject = () => ({})
+      if (!document.createEventObject) {
+        document.createEventObject = () => ({})
+      }
     })
     describe('with no data and props', () => {
       it('creates a bubbling and cancelable event', () => {
@@ -88,7 +90,7 @@ describe('events utils', () => {
 
     describe('with data and props', () => {
       it('setups the event', () => {
-        const data = {foo: 'bar'}
+        const data = 'some event data'
         const event = createEventObject('foo', data, {bubbles: false, cancelable: false})
 
         expect(event.type).to.eql('foo')
