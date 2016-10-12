@@ -137,7 +137,7 @@ export function nodeIndex (node) {
 }
 
 export function detachNode (node) {
-  node.parentNode && node.parentNode.removeChild(node)
+  node && node.parentNode && node.parentNode.removeChild(node)
 }
 
 export function animate ({from, to, duration, step, end}) {
