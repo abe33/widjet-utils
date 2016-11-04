@@ -261,5 +261,15 @@ describe('misc utilities', () => {
       expect(arr).to.have.length(10)
       expect(arr.every(v => v === 'foo')).to.be.ok()
     })
+
+    it('returns a function when called with only a length', () => {
+      const fn = fill(2)
+
+      expect(typeof fn).to.eql('function')
+      expect(fn('foo')).to.eql(['foo', 'foo'])
+      expect(fn('bar')).to.eql(['bar', 'bar'])
+    })
+  })
+
   })
 })
