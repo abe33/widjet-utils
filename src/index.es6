@@ -52,13 +52,13 @@ export const never = a => false
 export const head = a => a[0]
 export const tail = a => a.slice(1)
 
-export const when = curry2((predicates, value) => {
-  const {length} = predicates
-  for (let i = 0; i < length; i++) {
-    const [predicate, resolve] = predicates[i]
-
-    if (predicate(value)) { return resolve(value) }
+export const when = curry2((predicates, ...values) => {
+  const doWhen = (a) => {
+    const [predicate, resolve] = head(a)
+    return predicate(...values) ? resolve(...values) : doWhen(tail(a))
   }
+
+  return doWhen(predicates)
 })
 
 export function compose (...fns) {
