@@ -126,7 +126,7 @@ describe('misc utilities', () => {
 
       bar = bar(1)
       expect(typeof bar).to.eql('function')
-      expect(bar(2, 3, 4)).to.eql(3)
+      expect(bar(2, 3, 4)).to.eql(10)
 
       bar = bar(2)
       expect(typeof bar).to.eql('number')

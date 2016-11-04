@@ -31,7 +31,7 @@ const _curry = (n, fn, curryArgs = []) => {
 
     return n > concatArgs.length
       ? _curry(n, fn, concatArgs)
-      : fn.apply(null, slice.call(concatArgs, 0, n))
+      : fn.apply(null, concatArgs)
   }
 }
 
