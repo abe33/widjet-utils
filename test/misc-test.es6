@@ -10,6 +10,7 @@ import {
   compose,
   curry,
   curryN,
+  fill,
   identity,
   inputName,
   log,
@@ -250,6 +251,15 @@ describe('misc utilities', () => {
         expect(fn('foo')).to.eql('foo')
         expect(fn('foo', 0, 'bar')).to.eql('foo0_bar_')
       })
+    })
+  })
+
+  describe('fill()', () => {
+    it('builds an array of the specified length with the given content', () => {
+      const arr = fill(10, 'foo')
+
+      expect(arr).to.have.length(10)
+      expect(arr.every(v => v === 'foo')).to.be.ok()
     })
   })
 })

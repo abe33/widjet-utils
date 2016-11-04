@@ -90,6 +90,10 @@ export const inputName = (options = {prefix: '[', suffix: ']'}) => {
 
 export const log = (v) => { console.log(v); return v }
 
+export const fill = curry2((length, value) =>
+  new Array(length).map(() => value)
+)
+
 // ########   #######  ##     ##
 // ##     ## ##     ## ###   ###
 // ##     ## ##     ## #### ####
