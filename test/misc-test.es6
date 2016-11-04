@@ -14,6 +14,7 @@ import {
   identity,
   inputName,
   log,
+  mapEach,
   merge,
   never,
   pipe,
@@ -271,5 +272,27 @@ describe('misc utilities', () => {
     })
   })
 
+  describe('mapEach()', () => {
+    it('applies to each element the corresponding mapping function', () => {
+      const maps = [
+        n => n * 2,
+        n => n / 2
+      ]
+
+      const values = [5, 10]
+
+      expect(mapEach(maps, values)).to.eql([10, 5])
+    })
+
+    it('returns a function when called with only mappings', () => {
+      const maps = [
+        n => n * 2,
+        n => n / 2
+      ]
+
+      const fn = mapEach(maps)
+
+      expect(fn([5, 10])).to.eql([10, 5])
+    })
   })
 })

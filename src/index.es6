@@ -91,6 +91,9 @@ export const inputName = (options = {prefix: '[', suffix: ']'}) => {
 export const log = (v) => { console.log(v); return v }
 
 export const fill = curry2((len, value) => new Array(len).fill(value))
+
+export const mapEach = curry2((maps, values) =>
+  values.map((v, i) => maps[i % maps.length](v))
 )
 
 // ########   #######  ##     ##
