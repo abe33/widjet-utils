@@ -11,13 +11,17 @@ import {
   curry,
   curryN,
   fill,
+  head,
   identity,
+  init,
   inputName,
+  last,
   log,
   mapEach,
   merge,
   never,
   pipe,
+  tail,
   when
 } from '../src/index'
 
@@ -80,6 +84,34 @@ describe('misc utilities', () => {
         ['bar', 'baz'],
         ['baz', true]
       ])
+    })
+  })
+
+  describe('head()', () => {
+    it('returns the first item of a list', () => {
+      expect(head(['a', 'b', 'c'])).to.eql('a')
+      expect(head('abc')).to.eql('a')
+    })
+  })
+
+  describe('last()', () => {
+    it('returns the last item of a list', () => {
+      expect(last(['a', 'b', 'c'])).to.eql('c')
+      expect(last('abc')).to.eql('c')
+    })
+  })
+
+  describe('tail()', () => {
+    it('returns all but the first item of a list', () => {
+      expect(tail(['a', 'b', 'c'])).to.eql(['b', 'c'])
+      expect(tail('abc')).to.eql('bc')
+    })
+  })
+
+  describe('init()', () => {
+    it('returns all but the last item of a list', () => {
+      expect(init(['a', 'b', 'c'])).to.eql(['a', 'b'])
+      expect(init('abc')).to.eql('ab')
     })
   })
 

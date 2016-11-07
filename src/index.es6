@@ -50,7 +50,9 @@ export const identity = a => a
 export const always = a => true
 export const never = a => false
 export const head = a => a[0]
+export const last = a => a[a.length - 1]
 export const tail = a => a.slice(1)
+export const init = a => a.slice(0, -1)
 
 export const when = curry2((predicates, ...values) => {
   const doWhen = (a) => {
