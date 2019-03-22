@@ -56,7 +56,7 @@
     "widjet-test-utils": "^1.9.1"
   },
   "dependencies": {
-    "widjet-disposables": "^0.1.7"
+    "widjet-disposables": "^1.0.0"
   },
   "babel": {
     "presets": [
