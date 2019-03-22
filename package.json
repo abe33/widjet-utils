@@ -60,15 +60,6 @@
     "jsdom": "^9.8.3",
     "widjet-disposables": "^0.1.7"
   },
-  "standard": {
-    "parser": "babel-eslint",
-    "globals": [
-      "it",
-      "describe",
-      "beforeEach",
-      "afterEach"
-    ]
-  },
   "babel": {
     "presets": [
       "es2015"
