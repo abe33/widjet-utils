@@ -78,9 +78,9 @@ export const asPair = (object) => Object.keys(object).map((k) => [k, object[k]])
 
 export const asDataAttributes = (o) =>
   asPair(o)
-  .map(([k, v]) => typeof v === 'boolean' ? (v ? k : '') : `${k}="${v}"`)
-  .map(s => `data-${s}`)
-  .join(' ');
+    .map(([k, v]) => typeof v === 'boolean' ? (v ? k : '') : `${k}="${v}"`)
+    .map(s => `data-${s}`)
+    .join(' ');
 
 export const inputName = (options = {prefix: '[', suffix: ']'}) => {
   const prefix = options.prefix || '';
@@ -255,8 +255,8 @@ export const domEvent = (type, data, props = {}) => {
       domEventImplementation = e && newEvent;
     } catch (e) {
       domEventImplementation = document.createEvent
-      ? createEvent
-      : createEventObject;
+        ? createEvent
+        : createEventObject;
     }
   }
 
