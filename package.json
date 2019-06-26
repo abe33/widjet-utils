@@ -3,17 +3,17 @@
   "version": "1.1.0",
   "description": "JS utilities for widjet widgets",
   "main": "lib/index.js",
-  "jsnext:main": "src/index.es6",
+  "jsnext:main": "src/index.js",
   "scripts": {
-    "test": "nyc mocha --timeout 10000 --recursive test/**/*.es6 test/*.es6",
+    "test": "nyc mocha --timeout 10000 --recursive test/**/*.js test/*.js",
     "lcov_report": "nyc report --reporter=lcov",
     "coverage": "npm run lcov_report && codecov",
     "babel": "babel src --out-dir lib",
-    "lint": "eslint src/*.es6 test/*.es6",
-    "lint:fix": "eslint --fix src/*.es6 test/*.es6",
+    "lint": "eslint src/*.js test/*.js",
+    "lint:fix": "eslint --fix src/*.js test/*.js",
     "esdoc": "esdoc -c esdoc.json",
     "prepublishOnly": "npm run babel",
-    "start": "widjet-test-server test/**/*.es6"
+    "start": "widjet-test-server test/**/*.js"
   },
   "keywords": [
     "widgets",
@@ -53,7 +53,7 @@
     "nyc": "^13.3.0",
     "sinon": "^1.17.4",
     "jsdom": "^9.8.3",
-    "widjet-test-utils": "^1.9.1"
+    "widjet-test-utils": "^1.11"
   },
   "dependencies": {
     "widjet-disposables": "^1.0.0"
