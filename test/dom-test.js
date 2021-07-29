@@ -45,6 +45,12 @@ describe('DOM utils', () => {
     it('ignores text nodes', () => {
       expect(getNode('foo')).to.be(null);
     });
+
+    it('allows to create nodes that are not allowed in divs', () => {
+      expect(getNode('<tr></tr>')).to.be(null);
+
+      expect(getNode('<tr></tr>', 'table')).not.to.be(null);
+    });
   });
 
   describe('getNodes()', () => {
@@ -68,6 +74,12 @@ describe('DOM utils', () => {
 
     it('returns an empty array if no string is passed', () => {
       expect(getNodes()).to.be.empty();
+    });
+
+    it('allows to create nodes that are not allowed in divs', () => {
+      expect(getNodes('<tr></tr><tr></tr>')).to.be.empty();
+
+      expect(getNodes('<tr></tr><tr></tr>', 'table')).not.to.be.empty();
     });
   });
 

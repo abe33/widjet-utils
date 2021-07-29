@@ -106,15 +106,21 @@ export const mapEach = curry2((maps, values) =>
 // ##     ## ##     ## ##     ##
 // ########   #######  ##     ##
 
-let previewNode;
+const previewNodes = {};
 
 export function clearNodeCache() {
-  previewNode = null;
+  Object.keys(previewNodes).forEach((key) => {
+    delete previewNodes[key];
+  });
 }
 
-export function getNode(html) {
+export function getNode(html, nodeType = 'div') {
   if (!html) { return undefined; }
-  if (previewNode == null) { previewNode = document.createElement('div'); }
+  if (previewNodes[nodeType] == null) {
+    previewNodes[nodeType] = document.createElement(nodeType);
+  }
+
+  const previewNode = previewNodes[nodeType];
 
   previewNode.innerHTML = html;
   const node = previewNode.firstElementChild;
@@ -123,9 +129,14 @@ export function getNode(html) {
   return node || null;
 }
 
-export function getNodes(html) {
+export function getNodes(html, nodeType = 'div') {
   if (!html) { return []; }
-  if (previewNode == null) { previewNode = document.createElement('div'); }
+
+  if (previewNodes[nodeType] == null) {
+    previewNodes[nodeType] = document.createElement(nodeType);
+  }
+
+  const previewNode = previewNodes[nodeType];
 
   previewNode.innerHTML = html;
   const nodes = asArray(previewNode.childNodes);
