@@ -52,7 +52,7 @@
     "mocha-jsdom": "^2.0.0",
     "nyc": "^13.3.0",
     "sinon": "^1.17.4",
-    "jsdom": "^9.8.3",
+    "jsdom": "^16.5.0",
     "widjet-test-utils": "^1.11"
   },
   "dependencies": {
